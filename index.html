@@ -55,6 +55,14 @@
     <button>Trigger a Global Error</button>
   </section>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+    token: "bfa6e22be3fa411490f4cd0a798d47f8"
+    // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+
   <script>
     let calculateBtn = document.querySelector('#calculate');
     calculateBtn.addEventListener('click', () => {
@@ -62,11 +70,78 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
+      try {
+        if (secondNum == 0 && operator == '/') {
+          throw new Error ('cannot divide by zero!!!');
+        }
+      } catch (err) {}
       output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
     // TODO - Make buttons functional
+    errorBtns[0].addEventListener('click', () => {
+      let output = document.querySelector('output');
+      console.log('your output is:' + output.innerHTML);
+    });
+
+    errorBtns[1].addEventListener('click', () => {
+      try {
+        alert(number);
+        let number = 1;
+      } catch (err) {
+        console.error('You have been added to my cringe compilation');
+      } finally {
+        alert ('hello grader');
+      }
+    });
+
+    errorBtns[2].addEventListener('click', () => {
+      console.dir(document.querySelectorAll('#error-btns'));
+    });
+
+    errorBtns[3].addEventListener('click', () => {
+      console.dirxml(errorBtns);
+    });
+
+    errorBtns[4].addEventListener('click', () => {
+      console.group('Some errors');
+    });
+
+    errorBtns[5].addEventListener('click', () => {
+      console.groupEnd('Some errors');
+    });
+
+    errorBtns[6].addEventListener('click', () => {
+      console.table(errorBtns);
+    });
+
+    errorBtns[7].addEventListener('click', () => {
+      console.time();
+    });
+
+    errorBtns[8].addEventListener('click', () => {
+      console.timeEnd();
+    });
+
+    errorBtns[9].addEventListener('click', () => {
+      const imMethodRick = () => {iTurnedMyselfIntoAMethodMorty();}
+      const iTurnedMyselfIntoAMethodMorty = () => {console.trace();};
+      imMethodRick();
+    });
+
+    errorBtns[10].addEventListener('click', () => {
+      crash();
+    });
+
+    function crash() {
+      oogabooga('rip');
+    }
+
+    window.addEventListener('error', () => {
+      console.log('global error detected')
+    });
+
   </script>
 </body>
 </html>
